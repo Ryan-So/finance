@@ -14,15 +14,24 @@ def fv_analytic(t, initial, monthly_contribution, interest_rate):
     :param monthly_contribution: Monthy contribution
     :param interest_rate: Annualized interest rate
     :return: future value
+
+    Example: Saving for 11 months with 20k initial capital and
+    adding 2k/month at an annual interest rate of 12%
+
+    >>> values = fv_analytic(11, 20000, 2000, 0.12)
+    >>> round(values)
+    45678.0
+
     """
 
-    monthly_interest = interest_rate/12
-    return initial * (1 + monthly_interest) ** t + \
-        monthly_contribution * (1 + monthly_interest) * ((1 + monthly_interest) ** t - 1) / interest_rate
+    interest_rate /= 12
+
+    return initial * (1+interest_rate) ** t + \
+        monthly_contribution * (1+interest_rate) * ((1+interest_rate) ** t - 1) / interest_rate
 
 
 def fv_pretty(t, initial, monthly_contribution, interest_rate, html=False):
-    #TODO: Add decent test here
+    #TODO: Add decent test here to make sure that HTML is rendering properly
     """
     Gives us ammoratized compound interest in pretty formats
 
@@ -31,7 +40,8 @@ def fv_pretty(t, initial, monthly_contribution, interest_rate, html=False):
     :param monthly_contribution: monthly investment
     :param interest_rate:
     :return pd.Series or HTML table containing the month numbers and the current
-    Acummulated savings
+    Accumulated savings
+
 
     """
 
@@ -59,7 +69,6 @@ def fv_iterated(t, initial, monthly_contribution, interest_rate):
     :param monthly_contribution: monthly investment
     :param interest_rate:
     :return: tuples containg the values with the interest rate
-
 
     >>> values = fv_iterated(12, 20000, 2000, .12)
     >>> round(values[-1][1])
